@@ -1,12 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
+import { useTodo } from "../contexts";
 
 const TodoForm = () => {
+  const [title, setTitle] = useState("");
+  const { addTodo } = useTodo();
+
+  const add = (e) => {
+    e.preventDefault();
+    if (!title) return;
+
+    addTodo({ title, completed: false });
+    setTitle("");
+  };
+
   return (
-    <form className="flex">
+    <form onSubmit={add} className="flex">
       <input
         type="text"
         placeholder="Write Todo..."
         className="w-full border border-black/10 rounded-l-lg px-3 outline-none duration-150 bg-white/20 py-1.5"
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
       />
       <button
         type="submit"
